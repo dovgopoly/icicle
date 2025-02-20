@@ -221,7 +221,7 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v4
     - name: Checkout METAL Backend
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
+      # if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
       uses: actions/checkout@v4
       with:
         repository: ingonyama-zk/icicle-metal-backend
