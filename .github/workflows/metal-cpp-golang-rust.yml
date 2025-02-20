@@ -60,10 +60,10 @@ jobs:
       # causing rustfmt to fail.
       run: if [[ $(find . -path ./icicle-curves/icicle-curve-template -prune -o -name target -prune -o -iname *.rs -print | xargs cargo fmt --check --) ]]; then echo "Please run cargo fmt"; exit 1; fi
 
-  extract-metal-backend-branch:
-    uses: ./.github/workflows/extract-backends.yml
-    with:
-      pr-number: ${{ github.event.pull_request.number }}
+  # extract-metal-backend-branch:
+  #   uses: ./.github/workflows/extract-backends.yml
+  #   with:
+  #     pr-number: ${{ github.event.pull_request.number }}
 
   # test-linux-curve:
   #   name: Test curve on Linux
@@ -204,7 +204,8 @@ jobs:
   test-linux-field:
     name: Test field on Linux
     runs-on: [self-hosted, Linux, X64, icicle, metal]
-    needs: [check-changed-files, check-format, extract-metal-backend-branch]
+    # needs: [check-changed-files, check-format, extract-metal-backend-branch]
+    needs: [check-changed-files, check-format]
     strategy:
       matrix:
         field:
@@ -226,7 +227,8 @@ jobs:
         repository: ingonyama-zk/icicle-metal-backend
         path: ./icicle/backend/metal
         ssh-key: ${{ secrets.METAL_PULL_KEY }}
-        ref: ${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}
+        # ref: ${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}
+        ref: main
     - name: Get METAL Backend Commit SHA
       if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
       working-directory: ./icicle/backend/metal
@@ -238,11 +240,48 @@ jobs:
     - name: Set METAL backend flag
       if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
       id: metal-flag
+      # run: |
+      #   METAL_BACKEND_SHA=${{ steps.extract-metal-sha.outputs.metal-backend-sha }}
+      #   FIELD=${{ matrix.field.name }}
+      #   COMMIT_FILE="gh_commit_sha_${FIELD}_${METAL_BACKEND_SHA}"
+      #   if [ "${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}" == "main" ]; then
+      #   if [ "${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}" == "main" ]; then
+      #     INSTALL_PATH=${{ github.workspace }}/../../main_lib/field/$FIELD
+      #     echo "INSTALL_PATH=${{ github.workspace }}/../../main_lib/field/$FIELD" >> $GITHUB_OUTPUT
+      #     COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}
+      #     echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
+
+      #     if [ -f "$COMMIT_FILE_PATH" ]; then
+      #       echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting METAL_FLAG="
+      #       echo "METAL_FLAG=" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting METAL_FLAG=-DMETAL_BACKEND=local"
+      #       echo "METAL_FLAG=-DMETAL_BACKEND=local" >> $GITHUB_OUTPUT
+      #       rm -rf ${INSTALL_PATH}
+      #     fi
+      #     echo "CMAKE_INSTALL_PREFIX=-DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}" >> $GITHUB_OUTPUT
+      #     echo "ICICLE_BACKEND_INSTALL_DIR=${INSTALL_PATH}/lib" >> $GITHUB_OUTPUT
+      #   else
+      #     INSTALL_PATH=${{ github.workspace }}/../../temp_lib/field/$FIELD
+      #     echo "INSTALL_PATH=${{ github.workspace }}/../../temp_lib/field/$FIELD" >> $GITHUB_OUTPUT
+      #     COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}
+      #     echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
+      #     if [ -f "$COMMIT_FILE_PATH" ]; then
+      #       echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting METAL_FLAG="
+      #       echo "METAL_FLAG=" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting METAL_FLAG=-DMETAL_BACKEND=local"
+      #       echo "METAL_FLAG=-DMETAL_BACKEND=local" >> $GITHUB_OUTPUT
+      #       rm -rf ${INSTALL_PATH}
+      #     fi
+      #     echo "CMAKE_INSTALL_PREFIX=-DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}" >> $GITHUB_OUTPUT
+      #     echo "ICICLE_BACKEND_INSTALL_DIR=${INSTALL_PATH}/lib" >> $GITHUB_OUTPUT
+      #   fi
       run: |
         METAL_BACKEND_SHA=${{ steps.extract-metal-sha.outputs.metal-backend-sha }}
         FIELD=${{ matrix.field.name }}
         COMMIT_FILE="gh_commit_sha_${FIELD}_${METAL_BACKEND_SHA}"
-        if [ "${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}" == "main" ]; then
+        if [ "main" == "main" ]; then
           INSTALL_PATH=${{ github.workspace }}/../../main_lib/field/$FIELD
           echo "INSTALL_PATH=${{ github.workspace }}/../../main_lib/field/$FIELD" >> $GITHUB_OUTPUT
           COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}
