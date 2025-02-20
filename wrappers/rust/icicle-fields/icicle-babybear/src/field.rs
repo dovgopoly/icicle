@@ -9,6 +9,7 @@ pub(crate) const SCALAR_LIMBS: usize = 1;
 pub(crate) const EXTENSION_LIMBS: usize = 4;
 
 impl_scalar_field!("babybear", babybear, SCALAR_LIMBS, ScalarField, ScalarCfg);
+#[cfg(not(no_ext_field))]
 impl_scalar_field!(
     "babybear_extension",
     babybear_extension,
