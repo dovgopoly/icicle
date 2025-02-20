@@ -239,7 +239,7 @@ jobs:
         echo "metal-backend-sha=$METAL_BACKEND_SHA" >> $GITHUB_OUTPUT
     - name: Set METAL backend flag
       if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
-      id: metal-flag
+      id: metal-flag 
       # run: |
       #   METAL_BACKEND_SHA=${{ steps.extract-metal-sha.outputs.metal-backend-sha }}
       #   FIELD=${{ matrix.field.name }}
