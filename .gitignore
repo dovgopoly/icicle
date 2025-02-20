@@ -19,4 +19,5 @@
 **/wrappers/rust/icicle-cuda-runtime/src/bindings.rs
 **/build/*
 **tar.gz
-icicle/backend/cuda
+icicle/backend/*
+!icicle/backend/cpu
