@@ -61,7 +61,7 @@ jobs:
   #     run: if [[ $(find . -path ./icicle-curves/icicle-curve-template -prune -o -name target -prune -o -iname *.rs -print | xargs cargo fmt --check --) ]]; then echo "Please run cargo fmt"; exit 1; fi
 
   extract-metal-backend-branch:
-    uses: ./.github/workflows/extract-backends.yml
+    uses: ./.github/workflows/extract-metal-backend.yml
     with:
       pr-number: ${{ github.event.pull_request.number }}
 
@@ -220,14 +220,13 @@ jobs:
     - name: Checkout Repo
       uses: actions/checkout@v4
     - name: Checkout METAL Backend
-      # if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
+      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
       uses: actions/checkout@v4
       with:
         repository: ingonyama-zk/icicle-metal-backend
         path: ./icicle/backend/metal
         ssh-key: ${{ secrets.METAL_PULL_KEY }}
         ref: ${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}
-        ref: main
     - name: Get METAL Backend Commit SHA
       if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
       working-directory: ./icicle/backend/metal
