@@ -203,7 +203,7 @@ jobs:
 
   test-linux-field:
     name: Test field on macOS
-    runs-on: [self-hosted, macOS, X64, icicle, metal]
+    runs-on: [self-hosted, macOS, arm64, icicle, metal]
     # needs: [check-changed-files, check-format, extract-metal-backend-branch]
     needs: [check-changed-files, check-format]
     strategy:
