@@ -194,8 +194,8 @@ TEST_F(FieldTestBase, Sumcheck)
     ASSERT_EQ(true, verification_pass);
   };
 
-  run(IcicleTestBase::reference_device(), mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
-  run(IcicleTestBase::main_device(), mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
+  for (const auto& device : s_registered_devices)
+    run(device, mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
 
   for (auto& mle_poly_ptr : mle_polynomials) {
     delete[] mle_poly_ptr;
@@ -247,7 +247,7 @@ TEST_F(FieldTestBase, SumcheckDataOnDevice)
     data_main[idx] = tmp;
   }
   std::ostringstream oss;
-  oss << "CUDA" << " " << "Sumcheck";
+  oss << IcicleTestBase::main_device() << " " << "Sumcheck";
 
   SumcheckProof<scalar_t> sumcheck_proof;
 
@@ -336,14 +336,16 @@ TEST_F(FieldTestBase, SumcheckUserDefinedCombine)
 
     ASSERT_EQ(true, verification_pass);
   };
-
-  run(IcicleTestBase::reference_device(), mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
-  run(IcicleTestBase::main_device(), mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
+  for (const auto& device : s_registered_devices) {
+    run(device, mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
+  }
 
   for (auto& mle_poly_ptr : mle_polynomials) {
     delete[] mle_poly_ptr;
   }
 }
+
+  #ifdef CUDA_ARCH
 
 MlePoly too_complex_combine(const std::vector<MlePoly>& inputs)
 {
@@ -441,6 +443,7 @@ TEST_F(FieldTestBase, SumcheckCudaShouldFailCases)
     delete[] mle_poly_ptr;
   }
 }
+  #endif // CUDA_ARCH
 
 MlePoly identity(const std::vector<MlePoly>& inputs) { return inputs[0]; }
 
@@ -499,8 +502,8 @@ TEST_F(FieldTestBase, SumcheckIdentity)
     ASSERT_EQ(true, verification_pass);
   };
 
-  run(IcicleTestBase::reference_device(), mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
-  run(IcicleTestBase::main_device(), mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
+  for (const auto& device : s_registered_devices)
+    run(device, mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
 
   for (auto& mle_poly_ptr : mle_polynomials) {
     delete[] mle_poly_ptr;
@@ -564,8 +567,8 @@ TEST_F(FieldTestBase, SumcheckSingleInputProgram)
     ASSERT_EQ(true, verification_pass);
   };
 
-  run(IcicleTestBase::reference_device(), mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
-  run(IcicleTestBase::main_device(), mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
+  for (const auto& device : s_registered_devices)
+    run(device, mle_polynomials, mle_poly_size, claimed_sum, "Sumcheck");
 
   for (auto& mle_poly_ptr : mle_polynomials) {
     delete[] mle_poly_ptr;

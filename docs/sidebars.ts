@@ -178,6 +178,11 @@ const rustBindingsApi = [
     label: "Merkle-Tree",
     id: "icicle/rust-bindings/merkle",
   },
+  {
+    "type": "doc",
+    "label": "Sumcheck",
+    "id": "icicle/rust-bindings/sumcheck"
+  }
   // {
   //   type: "doc",
   //   label: "Multi GPU Support (TODO)",
@@ -314,7 +319,7 @@ export default {
         {
           type: "link",
           label: "Ingopedia",
-          href: "https://www.ingonyama.com/ingopedia"
+          href: "https://www.ingonyama.com/ingopedia/glossary"
         },
         {
           href: 'https://github.com/ingonyama-zk',
