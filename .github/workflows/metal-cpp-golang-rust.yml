@@ -315,7 +315,7 @@ jobs:
         FIELD_DIR=icicle-${FIELD//_/-}
         export ICICLE_BACKEND_INSTALL_DIR=${{ steps.metal-flag.outputs.INSTALL_PATH }}
         cd ./$FIELD_DIR
-        cargo test --release --verbose --features no_ext_field -- --skip phase --skip hash --skip tree --skip test_ntt_arbitrary_coset --skip test_ntt_coset_interpolation_nm --skip test_ntt_batch --skip test_ntt_device_async --skip sumcheck
+        cargo test --release --verbose -- --skip phase --skip hash --skip tree --skip test_ntt_arbitrary_coset --skip test_ntt_coset_interpolation_nm --skip test_ntt_batch --skip test_ntt_device_async --skip sumcheck
         cargo test phase2 --release
         cargo test phase3 --release
 
