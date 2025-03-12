@@ -114,10 +114,10 @@ jobs:
       run: |
         if [[ "${{ matrix.backend }}" == "cuda" ]]; then
         echo 'cuda backend branch: ${{ needs.extract-cuda-backend-branch.outputs.cuda-backend-branch }}'
-          echo "BACKEND_BRANCH=${{ needs.extract-cuda-backend-branch.outputs.cuda-backend-branch }}" >> $GITHUB_ENV
+          echo "BACKEND_BRANCH=${{ needs.extract-cuda-backend-branch.outputs.backend-branch }}" >> $GITHUB_ENV
         elif [[ "${{ matrix.backend }}" == "metal" ]]; then
           echo "metal backend branch: ${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}"
-          echo "BACKEND_BRANCH=${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}" >> $GITHUB_ENV
+          echo "BACKEND_BRANCH=${{ needs.extract-metal-backend-branch.outputs.backend-branch }}" >> $GITHUB_ENV
         fi
     - name: Checkout Repo
       uses: actions/checkout@v4
