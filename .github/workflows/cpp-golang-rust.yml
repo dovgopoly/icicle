@@ -82,9 +82,11 @@ jobs:
         include:
           - backend: cuda
             backend_upper: CUDA
+            secret_key: CUDA_PULL_KEY
             runner: 'self-hosted, Linux, X64, icicle'
           - backend: metal
             backend_upper: METAL
+            secret_key: METAL_PULL_KEY
             runner: 'self-hosted, macOS, arm64, icicle, metal'
         curve:
           - name: bn254
@@ -101,7 +103,7 @@ jobs:
     steps:
     - name: Set Backend Secret Key
       run: |
-        echo "PULL_KEY=${{ secrets[matrix.backend_upper + '_PULL_KEY'] }}" >> $GITHUB_ENV
+        echo "PULL_KEY=${{ secrets[matrix.secret_key] }}" >> $GITHUB_ENV
     - name: Set Backend Branch Name
       run: |
         if [[ "${{ matrix.backend }}" == "cuda" ]]; then
