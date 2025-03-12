@@ -104,6 +104,7 @@ jobs:
     steps:
     - name: Set Backend Secret Key
       run: |
+        echo "::add-mask::${{ secrets[matrix.secret_key] }}"
         echo "PULL_KEY=${{ secrets[matrix.secret_key] }}" >> $GITHUB_ENV
     - name: Set Backend Branch Name
       run: |
