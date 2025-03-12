@@ -73,7 +73,7 @@ jobs:
   
   test-curve:
     name: Test Curve ${{ matrix.curve.name }} on ${{ matrix.os }} with ${{ matrix.backend }}
-    runs-on: [ "${{ matrix.runner }}" ]
+    runs-on: [ self-hosted, icicle, "${{ matrix.os }}", "${{ matrix.arch }}", "${{ matrix.labels }}" ]
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
     strategy:
       matrix:
@@ -83,12 +83,14 @@ jobs:
             backend_upper: CUDA
             secret_key: CUDA_PULL_KEY
             os: Linux
-            runner: self-hosted, Linux, X64, icicle
+            arch: X64
+            labels: "" 
           - backend: metal
             backend_upper: METAL
             secret_key: METAL_PULL_KEY
             os: macOS
-            runner: self-hosted, macOS, ARM64, icicle, metal
+            arch: ARM64
+            labels: metal
         curve:
           - name: bn254
             build_args: -DG2=ON -DECNTT=ON
