@@ -83,12 +83,12 @@ jobs:
             backend_upper: CUDA
             secret_key: CUDA_PULL_KEY
             os: Linux
-            runner: 'self-hosted, Linux, X64, icicle'
+            runner: self-hosted, Linux, X64, icicle
           - backend: metal
             backend_upper: METAL
             secret_key: METAL_PULL_KEY
             os: macOS
-            runner: 'self-hosted, macOS, ARM64, icicle, metal'
+            runner: self-hosted, macOS, ARM64, icicle, metal
         curve:
           - name: bn254
             build_args: -DG2=ON -DECNTT=ON
