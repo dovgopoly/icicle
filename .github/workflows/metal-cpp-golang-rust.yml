@@ -61,9 +61,10 @@ jobs:
   #     run: if [[ $(find . -path ./icicle-curves/icicle-curve-template -prune -o -name target -prune -o -iname *.rs -print | xargs cargo fmt --check --) ]]; then echo "Please run cargo fmt"; exit 1; fi
 
   extract-metal-backend-branch:
-    uses: ./.github/workflows/extract-metal-backend.yml
+    uses: ./.github/workflows/extract-backend.yml
     with:
       pr-number: ${{ github.event.pull_request.number }}
+      backend-type: metal
 
   test-metal-curve:
     name: Test curve on macOS
