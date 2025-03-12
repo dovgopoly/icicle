@@ -137,7 +137,7 @@ jobs:
         BACKEND_SHA=${{ steps.extract-backend-sha.outputs.extracted-backend-sha }}
         CURVE=${{ matrix.curve.name }}
         COMMIT_FILE="gh_commit_sha_${CURVE}_${BACKEND_SHA}"
-        if [ "${{ needs.extract-${{ matrix.backend }}-backend-branch.outputs.${{ matrix.backend }}-backend-branch }}" == "main" ]; then
+        if [ "${{ env.BACKEND_BRANCH }}" == "main" ]; then
           INSTALL_PATH=${{ github.workspace }}/../../main_lib/curve/$CURVE
           echo "INSTALL_PATH=${{ github.workspace }}/../../main_lib/curve/$CURVE" >> $GITHUB_OUTPUT
           COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}
@@ -172,7 +172,7 @@ jobs:
 
     - name: Build curve
       working-directory: ./icicle
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
+      if: check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
       run: |
         mkdir -p build && rm -rf build/*
         cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DCURVE=${{ matrix.curve.name }} ${{ matrix.curve.build_args }} ${{ steps.backend-flag.outputs.${{ matrix.backend_upper }}_FLAG }} ${{ steps.backend-flag.outputs.CMAKE_INSTALL_PREFIX }} -S . -B build
