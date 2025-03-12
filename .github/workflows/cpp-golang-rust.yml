@@ -83,11 +83,9 @@ jobs:
           - backend: cuda
             backend_upper: CUDA
             runner: 'self-hosted, Linux, X64, icicle'
-            ssh-key: ${{ secrets.CUDA_PULL_KEY }}
           - backend: metal
             backend_upper: METAL
             runner: 'self-hosted, macOS, arm64, icicle, metal'
-            ssh-key: ${{ secrets.METAL_PULL_KEY }}
         curve:
           - name: bn254
             build_args: -DG2=ON -DECNTT=ON
@@ -101,6 +99,10 @@ jobs:
             build_args: -DG2=OFF -DECNTT=OFF
 
     steps:
+    - name: Convert Backend Name to Uppercase
+      run: |
+        BACKEND_UPPER=$(echo "${{ matrix.backend }}" | awk '{print toupper($0)}')
+        echo "BACKEND_UPPER=$BACKEND_UPPER" >> $GITHUB_ENV
     - name: Checkout Repo
       uses: actions/checkout@v4
     - name: Checkout ${{ matrix.backend_upper }} Backend
@@ -109,7 +111,7 @@ jobs:
       with:
         repository: ingonyama-zk/icicle-${{ matrix.backend }}-backend
         path: ./icicle/backend/${{ matrix.backend }}
-        ssh-key: ${{ matrix.ssh-key }}
+        ssh-key: ${{ secrets.[env.BACKEND_UPPER + '_PULL_KEY'] }}
         ref: ${{ needs.extract-${{ matrix.backend }}-backend-branch.outputs.${{ matrix.backend }}-backend-branch }}
     - name: Get CUDA Backend Commit SHA
       if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
