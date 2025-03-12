@@ -73,7 +73,7 @@ jobs:
   
   test-curve:
     name: Test Curve ${{ matrix.curve.name }} on ${{ matrix.os }} with ${{ matrix.backend }}
-    runs-on: ${{ matrix.runner }}
+    runs-on: [ "${{ matrix.runner }}" ]
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
     strategy:
       matrix:
