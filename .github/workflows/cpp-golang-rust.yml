@@ -83,9 +83,11 @@ jobs:
           - backend: cuda
             backend_upper: CUDA
             runner: 'self-hosted, Linux, X64, icicle'
+            ssh-key: ${{ secrets.CUDA_PULL_KEY }}
           - backend: metal
             backend_upper: METAL
             runner: 'self-hosted, macOS, arm64, icicle, metal'
+            ssh-key: ${{ secrets.METAL_PULL_KEY }}
         curve:
           - name: bn254
             build_args: -DG2=ON -DECNTT=ON
@@ -107,7 +109,7 @@ jobs:
       with:
         repository: ingonyama-zk/icicle-${{ matrix.backend }}-backend
         path: ./icicle/backend/${{ matrix.backend }}
-        ssh-key: ${{ secrets.${{ matrix.backend_upper }}_PULL_KEY }}
+        ssh-key: ${{ matrix.ssh-key }}
         ref: ${{ needs.extract-${{ matrix.backend }}-backend-branch.outputs.${{ matrix.backend }}-backend-branch }}
     - name: Get CUDA Backend Commit SHA
       if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'

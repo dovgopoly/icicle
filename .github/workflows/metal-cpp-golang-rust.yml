@@ -1,28 +1,28 @@
-# name: METAL-C++/Go/RUST
+name: METAL-C++/Go/RUST
 
-# on:
-#   pull_request:
-#     branches:
-#       - main
+on:
+  pull_request:
+    branches:
+      - main
 
 
-# concurrency:
-#   group: ${{ github.workflow }}-${{ github.ref }}
-#   cancel-in-progress: true
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
-# jobs:
+jobs:
 
-#   spelling-checker:
-#     name: Check Spelling
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v4
-#       - uses: codespell-project/actions-codespell@v2
-#         with:
-#           # https://github.com/codespell-project/actions-codespell?tab=readme-ov-file#parameter-skip
-#           skip: ./**/target,./**/build,./docs/*.js,./docs/*.json,./*.svg
-#           # https://github.com/codespell-project/actions-codespell?tab=readme-ov-file#parameter-ignore_words_file
-#           ignore_words_file: .codespellignore
+  spelling-checker:
+    name: Check Spelling
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: codespell-project/actions-codespell@v2
+        with:
+          # https://github.com/codespell-project/actions-codespell?tab=readme-ov-file#parameter-skip
+          skip: ./**/target,./**/build,./docs/*.js,./docs/*.json,./*.svg
+          # https://github.com/codespell-project/actions-codespell?tab=readme-ov-file#parameter-ignore_words_file
+          ignore_words_file: .codespellignore
 
 #   check-changed-files:
 #     uses: ./.github/workflows/check-changed-files.yml
