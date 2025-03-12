@@ -19,8 +19,7 @@ impl_scalar_field!(
 
 #[cfg(test)]
 mod tests {
-    use super::ExtensionField;
-    use super::ScalarField;
+    use super::{ExtensionField, ScalarField};
     use icicle_core::impl_field_tests;
     use icicle_core::tests::*;
 
@@ -29,4 +28,4 @@ mod tests {
         use super::*;
         impl_field_tests!(ExtensionField);
     }
-    }
+}

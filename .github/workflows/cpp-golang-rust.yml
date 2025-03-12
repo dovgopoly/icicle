@@ -110,23 +110,13 @@ jobs:
             echo "${{ secrets[matrix.secret_key] }}"
             echo "EOF"
           } >> $GITHUB_OUTPUT
-      # env: 
-      # run: |
-      #   ENCODED_KEY=$(echo -n "${{ secrets[matrix.secret_key] }}" | base64)
-      #   echo "::add-mask::$ENCODED_KEY" 
-      #   echo "PULL_KEY=$ENCODED_KEY" >> $GITHUB_ENV
-    # - name: Decode Secret and Set Output
-    #   id: decode-secret
-    #   run: |
-    #     echo "$PULL_KEY" | base64 --decode > decoded_secret.txt 
-    #     echo "DECODED_SECRET<<EOF" >> $GITHUB_ENV
-    #     cat decoded_secret.txt >> $GITHUB_ENV
-    #     echo "EOF" >> $GITHUB_ENV    
     - name: Set Backend Branch Name
       run: |
         if [[ "${{ matrix.backend }}" == "cuda" ]]; then
+        echo 'cuda backend branch: ${{ needs.extract-cuda-backend-branch.outputs.cuda-backend-branch }}'
           echo "BACKEND_BRANCH=${{ needs.extract-cuda-backend-branch.outputs.cuda-backend-branch }}" >> $GITHUB_ENV
         elif [[ "${{ matrix.backend }}" == "metal" ]]; then
+          echo "metal backend branch: ${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}"
           echo "BACKEND_BRANCH=${{ needs.extract-metal-backend-branch.outputs.metal-backend-branch }}" >> $GITHUB_ENV
         fi
     - name: Checkout Repo
@@ -139,7 +129,7 @@ jobs:
         path: ./icicle/backend/${{ matrix.backend }}
         ssh-key: ${{ steps.pull_key.outputs.PULL_KEY }}
         ref: ${{ env.BACKEND_BRANCH }}
-    - name: Get CUDA Backend Commit SHA
+    - name: Get ${{ matrix.backend_upper }} Backend Commit SHA
       if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ||  needs.check-changed-files.outputs.rust == 'true'
       working-directory: ./icicle/backend/${{ matrix.backend }}
       id: extract-backend-sha
