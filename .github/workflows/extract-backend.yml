@@ -35,6 +35,7 @@ jobs:
           BACKEND_BRANCH=$(echo "$DESCRIPTION" | grep -oP '${{ inputs.backend-type }}-backend-branch:\s*\K[^\s]+') || true
           if [ -z "$BACKEND_BRANCH" ]; then
             BACKEND_BRANCH="main" # Default branch if not specified
+            echo "No branch specified, using default branch: $BACKEND_BRANCH"
           fi
-          echo "Extracted METAL Backend Branch: $BACKEND_BRANCH"
+          echo "Extracted ${{ inputs.backend-type }} Backend Branch: $BACKEND_BRANCH"
           echo "${{ inputs.backend-type }}-backend-branch=$BACKEND_BRANCH" >> "$GITHUB_OUTPUT"
