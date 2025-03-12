@@ -101,7 +101,7 @@ jobs:
     steps:
     - name: Set Backend Secret Key
       run: |
-        echo "PULL_KEY=${{ secrets.[matrix.backend_upper + '_PULL_KEY'] }}" >> $GITHUB_ENV
+        echo "PULL_KEY=${{ secrets[matrix.backend_upper + '_PULL_KEY'] }}" >> $GITHUB_ENV
     - name: Set Backend Branch Name
       run: |
         if [[ "${{ matrix.backend }}" == "cuda" ]]; then
