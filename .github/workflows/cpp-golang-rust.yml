@@ -88,7 +88,7 @@ jobs:
             backend_upper: METAL
             secret_key: METAL_PULL_KEY
             os: macOS
-            runner: 'self-hosted, macOS, arm64, icicle, metal'
+            runner: 'self-hosted, macOS, ARM64, icicle, metal'
         curve:
           - name: bn254
             build_args: -DG2=ON -DECNTT=ON
