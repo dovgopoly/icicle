@@ -76,7 +76,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
     concurrency:
-      group:  ${{ github.workflow }}-${{ github.ref }}-${{ matrix.backend }}
+      group:  ${{ github.workflow }}-${{ github.ref }}-${{ matrix.backend_upper }}
       cancel-in-progress: true
     strategy:
       matrix:
@@ -240,11 +240,11 @@ jobs:
 
 
   test-field:
-    name: Test field ${{ matrix.curve.name }} on ${{ matrix.os }} with ${{ matrix.backend }}
+    name: Test field ${{ matrix.field.name }} on ${{ matrix.os }} with ${{ matrix.backend }}
     runs-on: [self-hosted, Linux, X64, icicle]
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
     concurrency:
-      group:  ${{ github.workflow }}-${{ github.ref }}-${{ matrix.backend }}
+      group:  ${{ github.workflow }}-${{ github.ref }}-${{ matrix.backend_upper }}
       cancel-in-progress: true
     strategy:
       matrix:
@@ -507,7 +507,7 @@ jobs:
     runs-on: ${{ matrix.runner }}
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
     concurrency:
-      group:  ${{ github.workflow }}-${{ github.ref }}-${{ matrix.backend }}
+      group:  ${{ github.workflow }}-${{ github.ref }}-${{ matrix.backend_upper }}
       cancel-in-progress: true
     strategy:
       matrix:
