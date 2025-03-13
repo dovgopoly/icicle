@@ -6,9 +6,9 @@ on:
       - main
 
 
-# concurrency:
-#   group:  ${{ github.workflow }}-${{ github.ref }}
-#   cancel-in-progress: true
+concurrency:
+  group:  ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
 
@@ -75,12 +75,6 @@ jobs:
     name: Test Curve ${{ matrix.curve.name }} on ${{ matrix.os }} with ${{ matrix.backend }}
     runs-on: ${{ matrix.runner }}
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
-    env:
-      BACKEND_NAME: ${{ matrix.backend }}
-
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ env.BACKEND_NAME }}
-      cancel-in-progress: true
     strategy:
       matrix:
         backend: [cuda, metal]
@@ -246,12 +240,6 @@ jobs:
     name: Test field ${{ matrix.field.name }} on ${{ matrix.os }} with ${{ matrix.backend }}
     runs-on: [self-hosted, Linux, X64, icicle]
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
-    env:
-      BACKEND_NAME: ${{ matrix.backend }}
-
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ env.BACKEND_NAME }}
-      cancel-in-progress: true
     strategy:
       matrix:
         backend: [cuda, metal]
@@ -512,12 +500,6 @@ jobs:
     name: Build and test Go & RUST hash on ${{ matrix.os }} with ${{ matrix.backend }}
     runs-on: ${{ matrix.runner }}
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
-    env:
-      BACKEND_NAME: ${{ matrix.backend }}
-
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}-${{ env.BACKEND_NAME }}
-      cancel-in-progress: true
     strategy:
       matrix:
         backend: [cuda, metal]
