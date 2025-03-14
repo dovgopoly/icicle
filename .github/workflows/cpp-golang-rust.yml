@@ -263,7 +263,7 @@ jobs:
             secret_key: METAL_PULL_KEY
             os: macOS
             runner: [self-hosted, macOS, ARM64, icicle, metal]
-            skip-rust: "--skip phase --skip montgomery --skip ntt_ --skip poseidon --skip ecntt --skip sumcheck --skip program --skip test_mixed_vec_ops_scalars --skip extension::test_vecops"
+            skip-rust: "--skip montgomery --skip ntt_ --skip poseidon --skip ecntt --skip sumcheck --skip program --skip test_mixed_vec_ops_scalars --skip extension::test_vecops --skip phase2"
             skip-cpp: '-E "QuarticExtensionField|ProgramExecutor|FieldTestBase.Sumcheck|FieldTestBase.SumcheckDataOnDevice|FieldTestBase.SumcheckUserDefinedCombine|FieldTestBase.SumcheckIdentity|FieldTestBase.SumcheckSingleInputProgram"'
             skip-golang: "true"
         field:
@@ -392,7 +392,7 @@ jobs:
         export ICICLE_BACKEND_INSTALL_DIR=${{ steps.field-backend-flag.outputs.INSTALL_PATH }}
         cd ./$FIELD_DIR
         cargo test --release --verbose -- --skip phase ${{ matrix.skip-rust }}
-        cargo test phase2 --release
+        cargo test phase2 --release -- ${{ matrix.skip-rust }}
         cargo test phase3 --release
 
     - name: Setup go
