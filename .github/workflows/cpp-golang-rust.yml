@@ -244,7 +244,7 @@ jobs:
 
   test-field:
     name: Test field ${{ matrix.field.name }} on ${{ matrix.os }} with ${{ matrix.backend }}
-    runs-on: [self-hosted, Linux, X64, icicle]
+    runs-on: ${{ matrix.runner }}
     needs: [check-changed-files, check-format, extract-cuda-backend-branch, extract-metal-backend-branch]
     strategy:
       matrix:
