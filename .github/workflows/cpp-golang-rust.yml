@@ -157,11 +157,11 @@ jobs:
           echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
 
           if [ -f "$COMMIT_FILE_PATH" ]; then
-            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG="
-            echo "${{ matrix.backend_upper }}_FLAG=" >> $GITHUB_OUTPUT
+            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG="
+            echo "BACKEND_FLAG=" >> $GITHUB_OUTPUT
           else
-            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
-            echo "${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
+            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
+            echo "BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
             rm -rf ${INSTALL_PATH}
           fi
           echo "CMAKE_INSTALL_PREFIX=-DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}" >> $GITHUB_OUTPUT
@@ -172,10 +172,10 @@ jobs:
           COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}
           echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
           if [ -f "$COMMIT_FILE_PATH" ]; then
-            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG="
+            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG="
             echo "BACKEND_FLAG=" >> $GITHUB_OUTPUT
           else
-            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
+            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
             echo "BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
             rm -rf ${INSTALL_PATH}
           fi
@@ -325,11 +325,11 @@ jobs:
           echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
 
           if [ -f "$COMMIT_FILE_PATH" ]; then
-            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG="
-            echo "${{ matrix.backend_upper }}_FLAG=" >> $GITHUB_OUTPUT
+            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG="
+            echo "BACKEND_FLAG=" >> $GITHUB_OUTPUT
           else
-            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
-            echo "${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
+            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
+            echo "BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
             rm -rf ${INSTALL_PATH}
           fi
           echo "CMAKE_INSTALL_PREFIX=-DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}" >> $GITHUB_OUTPUT
@@ -340,10 +340,10 @@ jobs:
           COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}
           echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
           if [ -f "$COMMIT_FILE_PATH" ]; then
-            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG="
+            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG="
             echo "BACKEND_FLAG=" >> $GITHUB_OUTPUT
           else
-            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
+            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
             echo "BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
             rm -rf ${INSTALL_PATH}
           fi
@@ -582,11 +582,11 @@ jobs:
           echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
 
           if [ -f "$COMMIT_FILE_PATH" ]; then
-            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG="
-            echo "${{ matrix.backend_upper }}_FLAG=" >> $GITHUB_OUTPUT
+            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG="
+            echo "$BACKEND_FLAG=" >> $GITHUB_OUTPUT
           else
-            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
-            echo "${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
+            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting $BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
+            echo "$BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
             rm -rf ${INSTALL_PATH}
           fi
           echo "CMAKE_INSTALL_PREFIX=-DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}" >> $GITHUB_OUTPUT
@@ -597,10 +597,10 @@ jobs:
           COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}
           echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
           if [ -f "$COMMIT_FILE_PATH" ]; then
-            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG="
+            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG="
             echo "BACKEND_FLAG=" >> $GITHUB_OUTPUT
           else
-            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
+            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
             echo "BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
             rm -rf ${INSTALL_PATH}
           fi
@@ -614,7 +614,7 @@ jobs:
       # builds the hash and merkle tree lib using a local copy of the backend
       run:  |
         mkdir -p build && rm -rf build/*
-        cmake -DCMAKE_BUILD_TYPE=Release  -DHASH=ON ${{ steps.hash-backend-flag.outputs.BACKEND_FLAG }} ${{ steps.hash-backend-flag.outputs.CMAKE_INSTALL_PREFIX }} -S . -B build
+        cmake -DCMAKE_BUILD_TYPE=Release -DHASH=ON ${{ steps.hash-backend-flag.outputs.BACKEND_FLAG }} ${{ steps.hash-backend-flag.outputs.CMAKE_INSTALL_PREFIX }} -S . -B build
         cmake --build build --target install -j
         rm -rf ${{ steps.hash-backend-flag.outputs.INSTALL_PATH }}/lib/gh_commit_sha_hash*
         touch ${{ steps.hash-backend-flag.outputs.COMMIT_FILE_PATH }}
@@ -718,11 +718,11 @@ jobs:
           echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
 
           if [ -f "$COMMIT_FILE_PATH" ]; then
-            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG="
-            echo "${{ matrix.backend_upper }}_FLAG=" >> $GITHUB_OUTPUT
+            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG="
+            echo "BACKEND_FLAG=" >> $GITHUB_OUTPUT
           else
-            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
-            echo "${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
+            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
+            echo "$BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
             rm -rf ${INSTALL_PATH}
           fi
           echo "CMAKE_INSTALL_PREFIX=-DCMAKE_INSTALL_PREFIX=${INSTALL_PATH}" >> $GITHUB_OUTPUT
@@ -733,10 +733,10 @@ jobs:
           COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}
           echo "COMMIT_FILE_PATH=${INSTALL_PATH}/lib/${COMMIT_FILE}" >> $GITHUB_OUTPUT
           if [ -f "$COMMIT_FILE_PATH" ]; then
-            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG="
+            echo "${COMMIT_FILE} exists in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG="
             echo "BACKEND_FLAG=" >> $GITHUB_OUTPUT
           else
-            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting ${{ matrix.backend_upper }}_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
+            echo "${COMMIT_FILE} does not exist in ${INSTALL_PATH}/lib. Setting BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local"
             echo "BACKEND_FLAG=-D${{ matrix.backend_upper }}_BACKEND=local" >> $GITHUB_OUTPUT
             rm -rf ${INSTALL_PATH}
           fi
