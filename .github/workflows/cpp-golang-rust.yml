@@ -190,8 +190,8 @@ jobs:
         mkdir -p build && rm -rf build/*
         cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON -DCURVE=${{ matrix.curve.name }} ${{ matrix.curve.build_args }} ${{ steps.curve-backend-flag.outputs.BACKEND_FLAG }} ${{ steps.curve-backend-flag.outputs.CMAKE_INSTALL_PREFIX }} -S . -B build
         cmake --build build --target install -j
-        rm -rf ${{ steps.backend-flag.outputs.INSTALL_PATH }}/lib/gh_commit_sha_${{ matrix.curve.name }}*
-        touch ${{ steps.backend-flag.outputs.COMMIT_FILE_PATH }}
+        rm -rf ${{ steps.curve-backend-flag.outputs.INSTALL_PATH }}/lib/gh_commit_sha_${{ matrix.curve.name }}*
+        touch ${{ steps.curve-backend-flag.outputs.COMMIT_FILE_PATH }}
 
     - name: Run C++ Curve Tests
       working-directory: ./icicle/build/tests
@@ -236,8 +236,8 @@ jobs:
       run: |
         CURVE=${{ matrix.curve.name }}
         CURVE_DIR=$(echo ${{ matrix.curve.name }} | sed -e 's/_//g')
-        export ICICLE_BACKEND_INSTALL_DIR=${{ steps.backend-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
-        export LD_LIBRARY_PATH=${{ steps.backend-flag.outputs.INSTALL_PATH }}/lib
+        export ICICLE_BACKEND_INSTALL_DIR=${{ steps.curve-backend-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
+        export LD_LIBRARY_PATH=${{ steps.curve-backend-flag.outputs.INSTALL_PATH }}/lib
         export CGO_LDFLAGS="-L$LD_LIBRARY_PATH -licicle_field_$CURVE -licicle_curve_$CURVE  -lstdc++ -Wl,-rpath=LD_LIBRARY_PATH"
         go test ./$CURVE_DIR/tests -count=1 -failfast -p 2 -timeout 60m -v
 
