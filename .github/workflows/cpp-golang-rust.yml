@@ -225,7 +225,7 @@ jobs:
         cargo test phase2 --release
         cargo test phase3 --release
     - name: Setup go
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true'
+      if: ( needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ) && ${{ matrix.skip-golang }} == 'false'
       timeout-minutes: 15
       uses: actions/setup-go@v5
       with:
@@ -396,7 +396,7 @@ jobs:
         cargo test phase3 --release
 
     - name: Setup go
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true'
+      if: ( needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ) && ${{ matrix.skip-golang }} == 'false'
       timeout-minutes: 15
       uses: actions/setup-go@v5
       with:
@@ -627,14 +627,14 @@ jobs:
         cargo test phase2 --release
         cargo test phase3 --release
     - name: Setup go
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true'
+      if: ( needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ) && ${{ matrix.skip-golang }} == 'false'
       timeout-minutes: 15
       uses: actions/setup-go@v5
       with:
         go-version: '1.22.0'
     - name: Test GoLang Hashes
       working-directory: ./wrappers/golang/hash
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true'
+      if: ( needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ) && ${{ matrix.skip-golang }} == 'false'
       run: |
         export ICICLE_BACKEND_INSTALL_DIR=${{ steps.hash-backend-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
         export LD_LIBRARY_PATH=${{ steps.hash-backend-flag.outputs.INSTALL_PATH }}/lib
@@ -642,7 +642,7 @@ jobs:
         go test ./tests -count=1 -failfast -p 2 -timeout 60m -v
     - name: Test GoLang Merkle Tree
       working-directory: ./wrappers/golang/merkle-tree
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true'
+      if: ( needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ) && ${{ matrix.skip-golang }} == 'false'
       run: |
         export ICICLE_BACKEND_INSTALL_DIR=${{ steps.hash-backend-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
         export LD_LIBRARY_PATH=${{ steps.hash-backend-flag.outputs.INSTALL_PATH }}/lib
