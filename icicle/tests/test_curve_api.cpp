@@ -62,8 +62,6 @@ public:
       std::ostringstream oss;
       oss << dev_type << " " << msg;
 
-      ICICLE_CHECK(msm_precompute_bases(bases.get(), N, config, precomp_bases.get()));
-
       START_TIMER(MSM_sync)
       for (int i = 0; i < iters; ++i) {
         ICICLE_CHECK(msm(scalars.get(), precomp_bases.get(), N, config, result));
