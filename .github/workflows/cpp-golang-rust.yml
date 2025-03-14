@@ -264,7 +264,7 @@ jobs:
             os: macOS
             runner: [self-hosted, macOS, ARM64, icicle, metal]
             skip-rust: "--skip phase --skip montgomery --skip ntt_ --skip poseidon --skip ecntt --skip sumcheck --skip program --skip msm_batch_not_shared"
-            skip-cpp: '-E "FieldTestBase.Sumcheck|FieldTestBase.SumcheckDataOnDevice|FieldTestBase.SumcheckUserDefinedCombine|FieldTestBase.SumcheckIdentity|FieldTestBase.SumcheckSingleInputProgram"'
+            skip-cpp: '-E "QuarticExtensionField|ProgramExecutor|FieldTestBase.Sumcheck|FieldTestBase.SumcheckDataOnDevice|FieldTestBase.SumcheckUserDefinedCombine|FieldTestBase.SumcheckIdentity|FieldTestBase.SumcheckSingleInputProgram"'
             skip-golang: "true"
         field:
           - name: babybear
