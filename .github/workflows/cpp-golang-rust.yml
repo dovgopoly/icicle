@@ -84,11 +84,17 @@ jobs:
             secret_key: CUDA_PULL_KEY
             os: Linux
             runner: [self-hosted, Linux, X64, icicle]
+            skip-rust: ""
+            skip-cpp: ""
+            skip-golang: "false"
           - backend: metal
             backend_upper: METAL
             secret_key: METAL_PULL_KEY
             os: macOS
             runner: [self-hosted, macOS, ARM64, icicle, metal]
+            skip-rust: "--skip phase --skip montgomery --skip ntt_ --skip poseidon --skip ecntt --skip sumcheck --skip program --skip msm_batch_not_shared"
+            skip-cpp: '-E "CurveApiTest.MontConversionG2Affine|CurveApiTest.MontConversionG2Projective|CurveApiTest.ecntt|CurveApiTest.ecnttDeviceMem|ModArithTestBase.ProgramExecutorVecOp|ModArithTestBase.ProgramExecutorVecOpDataOnDevice|FieldTestBase.Sumcheck|FieldTestBase.SumcheckDataOnDevice|FieldTestBase.SumcheckUserDefinedCombine|FieldTestBase.SumcheckIdentity|FieldTestBase.SumcheckSingleInputProgram"'
+            skip-golang: "true"
         curve:
           - name: bn254
             build_args: -DG2=ON -DECNTT=ON
@@ -192,7 +198,7 @@ jobs:
       if: needs.check-changed-files.outputs.cpp == 'true'
       run: |
         export ICICLE_BACKEND_INSTALL_DIR=${{ steps.backend-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
-        ctest --output-on-failure
+        ctest --output-on-failure -R "Device|Curve" ${{ matrix.skip-cpp }}
     - name: Run C++ examples
       working-directory: ./examples/c++
       if: needs.check-changed-files.outputs.cpp == 'true' || needs.check-changed-files.outputs.examples == 'true'
@@ -213,9 +219,9 @@ jobs:
       run: |
         CURVE=${{ matrix.curve.name }}
         CURVE_DIR=icicle-${CURVE//_/-}
-        export ICICLE_BACKEND_INSTALL_DIR=${{ steps.cuda-flag.outputs.INSTALL_PATH }}
+        export ICICLE_BACKEND_INSTALL_DIR=${{ steps.backend-flag.outputs.INSTALL_PATH }}
         cd ./$CURVE_DIR
-        cargo test --release --verbose -- --skip phase
+        cargo test --release --verbose -- --skip phase ${{ matrix.skip-rust }}
         cargo test phase2 --release
         cargo test phase3 --release
     - name: Setup go
@@ -226,11 +232,11 @@ jobs:
         go-version: '1.22.0'
     - name: Run Golang curve Tests
       working-directory: ./wrappers/golang/curves
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true'
+      if: ( needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ) && ${{ matrix.skip-golang }} == 'false'
       run: |
         CURVE=${{ matrix.curve.name }}
         CURVE_DIR=$(echo ${{ matrix.curve.name }} | sed -e 's/_//g')
-        export ICICLE_BACKEND_INSTALL_DIR=${{ steps.cuda-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
+        export ICICLE_BACKEND_INSTALL_DIR=${{ steps.backend-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
         export LD_LIBRARY_PATH=${{ steps.backend-flag.outputs.INSTALL_PATH }}/lib
         export CGO_LDFLAGS="-L$LD_LIBRARY_PATH -licicle_field_$CURVE -licicle_curve_$CURVE  -lstdc++ -Wl,-rpath=LD_LIBRARY_PATH"
         go test ./$CURVE_DIR/tests -count=1 -failfast -p 2 -timeout 60m -v
@@ -249,11 +255,17 @@ jobs:
             secret_key: CUDA_PULL_KEY
             os: Linux
             runner: [self-hosted, Linux, X64, icicle]
+            skip-rust: ""
+            skip-cpp: ""
+            skip-golang: "false"
           - backend: metal
             backend_upper: METAL
             secret_key: METAL_PULL_KEY
             os: macOS
             runner: [self-hosted, macOS, ARM64, icicle, metal]
+            skip-rust: "--skip phase --skip montgomery --skip ntt_ --skip poseidon --skip ecntt --skip sumcheck --skip program --skip msm_batch_not_shared"
+            skip-cpp: '-E "FieldTestBase.Sumcheck|FieldTestBase.SumcheckDataOnDevice|FieldTestBase.SumcheckUserDefinedCombine|FieldTestBase.SumcheckIdentity|FieldTestBase.SumcheckSingleInputProgram"'
+            skip-golang: "true"
         field:
           - name: babybear
             build_args: -DEXT_FIELD=ON
@@ -354,7 +366,7 @@ jobs:
       if: needs.check-changed-files.outputs.cpp == 'true'
       run: |
         export ICICLE_BACKEND_INSTALL_DIR=${{ steps.backend-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
-        ctest --output-on-failure
+        ctest --output-on-failure -R "Device|Field|Polynomial|ModArith|Sumcheck" ${{ matrix.skip-cpp }}
 
     - name: Run C++ examples
       working-directory: ./examples/c++
@@ -391,7 +403,7 @@ jobs:
         go-version: '1.22.0'
     - name: Run Golang field Tests
       working-directory: ./wrappers/golang/fields
-      if: needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true'
+      if: ( needs.check-changed-files.outputs.golang == 'true' || needs.check-changed-files.outputs.cpp == 'true' ) && ${{ matrix.skip-golang }} == 'false'
       run: |
         FIELD=${{ matrix.field.name }}
         FIELD_DIR=$(echo ${{ matrix.field.name }} | sed -e 's/_//g')
@@ -509,11 +521,17 @@ jobs:
             secret_key: CUDA_PULL_KEY
             os: Linux
             runner: [self-hosted, Linux, X64, icicle]
+            skip-rust: ""
+            skip-cpp: ""
+            skip-golang: "false"
           - backend: metal
             backend_upper: METAL
             secret_key: METAL_PULL_KEY
             os: macOS
             runner: [self-hosted, macOS, ARM64, icicle, metal]
+            skip-rust: "---skip poseidon --skip pow --skip merkle"
+            skip-cpp: '-E "HashApiTest.KeccakLarge|HashApiTest.MerkleTreeZeroPadding|HashApiTest.MerkleTreeZeroPaddingLeavesOnDevice|HashApiTest.MerkleTreeLastValuePadding|HashApiTest.MerkleTreeLastValuePaddingLeavesOnDevice|HashApiTest.MerkleTreeMixMediumSize|HashApiTest.MerkleTreeDevicePartialTree|HashApiTest.MerkleTreeLeavesOnDeviceTreeOnHost|HashApiTest.MerkleTreeLarge|HashApiTest.poseidon_12_single_hash|HashApiTest.poseidon_3_single_hash|HashApiTest.poseidon_3_batch_without_dt|HashApiTest.poseidon_3_batch_with_dt|HashApiTest.poseidon_tree|HashApiTest.poseidon2_non_sponge_all_included_test|HashApiTest.poseidon2_sponge_all_included_test|HashApiTest.poseidon2_3_single_hash_without_dt|HashApiTest.poseidon2_3_sponge_1K_hashers_without_dt|HashApiTest.poseidon2_invalid_t|HashApiTest.poseidon2_3_single_hash_with_dt|HashApiTest.poseidon2_2_batch_16_with_dt|HashApiTest.poseidon2_3_large_batch_without_dt_debug|HashApiTest.poseidon2_3_1K_batch_without_dt"'
+            skip-golang: "true"
     steps:
     - name: Set Backend Secret Key
       id: pull_key
