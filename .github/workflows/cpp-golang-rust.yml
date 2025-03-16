@@ -198,7 +198,7 @@ jobs:
       if: needs.check-changed-files.outputs.cpp == 'true'
       run: |
         export ICICLE_BACKEND_INSTALL_DIR=${{ steps.curve-backend-flag.outputs.ICICLE_BACKEND_INSTALL_DIR }}
-        ctest --output-on-failure -R "^Device|^Curve" ${{ matrix.skip-cpp }}
+        ctest --output-on-failure ${{ matrix.skip-cpp }}
     - name: Run C++ examples
       working-directory: ./examples/c++
       if: needs.check-changed-files.outputs.cpp == 'true' || needs.check-changed-files.outputs.examples == 'true'
